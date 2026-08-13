@@ -1,6 +1,7 @@
 """Workflow state definitions."""
 from typing import TypedDict
 
+from app.models.compliance_question import ComplianceQuestion
 from app.models.understanding import (
     DetectedEntity,
     DetectedFact,
@@ -24,3 +25,5 @@ class DipperWovenAgentState(TypedDict, total=False):
     intended_actions: list[IntendedAction]
     detected_events: list[str]
     entities: list[DetectedEntity]
+
+    compliance_questions: list[ComplianceQuestion]
