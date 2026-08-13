@@ -7,6 +7,11 @@ from app.models.understanding import (
     DetectedFact,
     IntendedAction,
 )
+from app.models.fact_context import (
+    FactKey,
+    RequiredFact,
+    ResolvedFact,
+)
 
 
 class DipperWovenAgentState(TypedDict, total=False):
@@ -27,3 +32,11 @@ class DipperWovenAgentState(TypedDict, total=False):
     entities: list[DetectedEntity]
 
     compliance_questions: list[ComplianceQuestion]
+
+    # Phase 3
+    required_facts: list[RequiredFact]
+    resolved_facts: list[ResolvedFact]
+    missing_facts: list[FactKey]
+    fact_sufficient: bool
+
+    

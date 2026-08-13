@@ -1,0 +1,1 @@
+"""Resolves representative authority for a case."""

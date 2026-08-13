@@ -7,6 +7,10 @@ from app.understanding.question_decomposer import (
     question_decomposition_node,
 )
 
+from app.understanding.sufficiency_checker import (
+    information_sufficiency_node,
+)
+
 
 def build_graph():
 
@@ -27,6 +31,11 @@ def build_graph():
     builder.add_node(
         "question_decomposition",
         question_decomposition_node,
+    )    
+
+    builder.add_node(
+        "information_sufficiency",
+        information_sufficiency_node,
     )
 
     builder.add_edge(
@@ -46,6 +55,11 @@ def build_graph():
 
     builder.add_edge(
         "question_decomposition",
+        "information_sufficiency",
+    )
+
+    builder.add_edge(
+        "information_sufficiency",
         END,
     )
 

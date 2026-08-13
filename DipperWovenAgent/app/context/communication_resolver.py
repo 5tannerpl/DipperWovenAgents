@@ -1,0 +1,1 @@
+"""Resolves communication preferences and restrictions."""

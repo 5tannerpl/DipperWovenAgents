@@ -1,0 +1,1 @@
+"""Resolves representative details for a case."""
