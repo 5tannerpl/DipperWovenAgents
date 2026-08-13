@@ -53,6 +53,9 @@ For facts, prefer specific business meanings such as:
 - complaint_claim
 - vulnerability_claim
 - payment_commitment
+- contact_attempt_no_answer
+- message_no_response
+- missed_payment_commitment
 
 Do NOT use generic fact types such as:
 
@@ -158,6 +161,34 @@ COMPLAINT
 DECEASED
 LEGAL_PROCEEDING
 PAYMENT_ARRANGEMENT
+MISSED_PAYMENT_COMMITMENT
+
+A payment commitment and a missed payment commitment are different states.
+
+If the input states that the customer promised to pay by a date
+and that date has passed without payment, extract:
+
+fact type = "missed_payment_commitment"
+
+and detect:
+
+MISSED_PAYMENT_COMMITMENT
+
+Do not reduce a missed payment commitment to a generic
+PAYMENT_ARRANGEMENT event.
+
+Historical unsuccessful contact attempts such as:
+
+"Customer did not answer the phone"
+
+or:
+
+"Customer did not reply to the text message"
+
+should be extracted as facts where supported by the input.
+
+They are not intended actions and do not automatically require
+a compliance event.
 
 For representative scenarios:
 

@@ -11,6 +11,9 @@ FactType = Literal[
     "complaint_claim",
     "vulnerability_claim",
     "payment_commitment",
+    "contact_attempt_no_answer",
+    "message_no_response",
+    "missed_payment_commitment",
 ]
 
 ActionType = Literal[
@@ -57,6 +60,7 @@ DetectedEvent = Literal[
     "DECEASED",
     "LEGAL_PROCEEDING",
     "PAYMENT_ARRANGEMENT",
+    "MISSED_PAYMENT_COMMITMENT",
 ]
 
 

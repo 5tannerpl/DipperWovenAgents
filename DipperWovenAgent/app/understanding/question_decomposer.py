@@ -131,6 +131,45 @@ Do not create questions merely because a topic exists in the schema.
 
 Only create questions that are relevant to the actual context.
 
+COMPLIANCE RELEVANCE GATE
+
+Not every detected business event requires a compliance question.
+
+Some detected events are operational or contextual events that may be
+important to downstream workflow or decision-making but do not, by
+themselves, require compliance reasoning.
+
+Before generating any question, determine whether the detected event,
+fact, or intended action creates a genuine compliance issue that needs
+to be resolved.
+
+If the input contains only operational facts and no compliance-relevant
+proposed action or compliance-sensitive event, it is valid and preferred
+to return:
+
+questions = []
+
+Do not create a compliance question merely because a detected event
+exists.
+
+In particular, a missed payment commitment by itself is an operational
+collection event and does not automatically require a compliance
+question.
+
+For example:
+
+"Customer did not pay what they promised yesterday."
+
+may produce:
+
+MISSED_PAYMENT_COMMITMENT
+
+but should normally produce:
+
+questions = []
+
+unless there is another compliance-relevant event or intended action
+that requires compliance assessment.
 
 TOPIC RULES
 
@@ -329,6 +368,41 @@ payment_arrangement_status
 Do not invent a future collector action merely because a customer has
 promised to make a payment.
 
+MISSED PAYMENT COMMITMENT SCENARIOS
+
+MISSED_PAYMENT_COMMITMENT represents an operational event indicating
+that a previously stated payment commitment was not met.
+
+Do NOT automatically convert MISSED_PAYMENT_COMMITMENT into:
+
+payment_arrangement_status
+
+Do NOT generate a compliance question solely because a payment promise
+was missed.
+
+A missed payment commitment may become relevant context when combined
+with another compliance-relevant event or intended action.
+
+For example:
+
+MISSED_PAYMENT_COMMITMENT
++
+PROPOSED_DIRECT_CONTACT
+
+may require compliance questions about the proposed contact.
+
+MISSED_PAYMENT_COMMITMENT
++
+a proposed payment request
+
+may require compliance questions about whether that proposed collection
+activity is permitted in the surrounding circumstances.
+
+However, the missed payment commitment itself does not automatically
+require its own compliance question.
+
+If no other compliance-relevant issue is present, return no compliance
+questions.
 
 MULTIPLE EVENT RULES
 
