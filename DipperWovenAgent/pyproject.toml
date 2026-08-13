@@ -1,0 +1,20 @@
+[project]
+name = "dipper-woven-agents"
+version = "0.1.0"
+description = "Compliance-first agentic workflow for debt collection"
+requires-python = ">=3.11"
+
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "langgraph",
+    "pydantic",
+    "openai",
+    "python-dotenv",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+]
