@@ -4,7 +4,10 @@ from app.api.agent import router as agent_router
 
 app = FastAPI(
     title="DipperWovenAgent",
-    version="0.1.0"
+    version="0.1.0",
+    docs_url="/agent/docs",
+    redoc_url=None,
+    openapi_url="/agent/openapi.json",
 )
 
 app.include_router(
