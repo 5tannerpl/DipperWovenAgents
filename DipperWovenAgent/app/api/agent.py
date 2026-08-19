@@ -1,8 +1,9 @@
 """Agent API endpoints."""
 import uuid
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
+from app.common.api_limit import check_global_api_limit
 from app.models.request import AgentRequest
 from app.orchestration.graph_builder import build_graph
 
@@ -14,7 +15,8 @@ graph = build_graph()
 
 @router.post("/invoke")
 async def invoke_agent(
-    request: AgentRequest
+    request: AgentRequest,
+    _: int = Depends(check_global_api_limit),
 ):
 
     initial_state = {
