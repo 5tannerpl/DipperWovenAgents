@@ -3,7 +3,7 @@
 import json
 
 from app.common.config import settings
-from app.common.llm_client import llm_client, local_llm_client
+from app.common.llm_client import llm_client, llm_model
 from app.models.compliance_question import ComplianceQuestionResult
 from app.orchestration.state import DipperWovenAgentState
 
@@ -518,8 +518,8 @@ async def question_decomposition_node(
         ],
     }
 
-    response = await local_llm_client.responses.parse(
-        model=settings.LOCAL_MODEL,
+    response = await llm_client.chat.completions.create(
+        model=llm_model,
         input=[
             {
                 "role": "system",
