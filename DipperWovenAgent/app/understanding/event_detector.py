@@ -264,7 +264,7 @@ async def event_detection_node(
 
     response = await llm_client.chat.completions.create(
         model=llm_model,
-        input=[
+        messages=[
             {
                 "role": "system",
                 "content": SYSTEM_PROMPT,
@@ -274,15 +274,19 @@ async def event_detection_node(
                 "content": content,
             },
         ],
-        text_format=UnderstandingResult,
+        response_format={"type": "json_object"},
     )
 
-    result = response.output_parsed
+    raw_content = response.choices[0].message.content
 
-    if result is None:
+    if not raw_content:
         raise RuntimeError(
-            "LLM did not return a valid UnderstandingResult."
+            "LLM did not return any content."
         )
+
+    result = UnderstandingResult.model_validate_json(
+        raw_content
+    )
 
     return {
         "detected_facts": result.facts,
