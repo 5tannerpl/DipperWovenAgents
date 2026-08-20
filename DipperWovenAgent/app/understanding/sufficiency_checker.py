@@ -620,8 +620,8 @@ async def information_sufficiency_node(
         ],
     }
 
-    response = await llm_client.responses.parse(
-        model=settings.OPENAI_MODEL,
+    response = await local_llm_client.responses.parse(
+        model=settings.LOCAL_MODEL,
         input=[
             {
                 "role": "system",
