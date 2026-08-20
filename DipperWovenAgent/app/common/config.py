@@ -30,7 +30,7 @@ class Settings:
 
     LOCAL_MODEL: str = os.getenv(
         "LOCAL_MODEL",
-        "phi4-mini:latest"
+        "phi4-mini"
     )
 
 
