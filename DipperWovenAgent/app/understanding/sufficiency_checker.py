@@ -620,12 +620,26 @@ async def information_sufficiency_node(
         ],
     }
 
+    schema = FactSufficiencyResult.model_json_schema()
+
+    system_prompt = (
+        SYSTEM_PROMPT
+        + "\n\nReturn ONLY valid JSON."
+        + "\nDo not use markdown."
+        + "\nDo not wrap the response in ```json."
+        + "\nThe JSON must match this schema exactly:\n"
+        + json.dumps(
+            schema,
+            ensure_ascii=False,
+        )
+    )
+
     response = await llm_client.chat.completions.create(
         model=llm_model,
-        input=[
+        messages=[
             {
                 "role": "system",
-                "content": SYSTEM_PROMPT,
+                "content": system_prompt,
             },
             {
                 "role": "user",
@@ -635,15 +649,21 @@ async def information_sufficiency_node(
                 ),
             },
         ],
-        text_format=FactSufficiencyResult,
+        response_format={
+            "type": "json_object"
+        },
     )
 
-    result = response.output_parsed
+    raw_content = response.choices[0].message.content
 
-    if result is None:
+    if not raw_content:
         raise RuntimeError(
             "LLM did not return a valid FactSufficiencyResult."
         )
+
+    result = FactSufficiencyResult.model_validate_json(
+        raw_content
+    )
 
     return {
         "required_facts": result.required_facts,
