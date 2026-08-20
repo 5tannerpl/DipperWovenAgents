@@ -25,7 +25,7 @@ class Settings:
 
     LOCAL_BASE_URL: str = os.getenv(
         "LOCAL_BASE_URL",
-        "http://127.0.0.1:11434/v1"
+        "http://host.docker.internal:11434/v1"
     )
 
     LOCAL_MODEL: str = os.getenv(
