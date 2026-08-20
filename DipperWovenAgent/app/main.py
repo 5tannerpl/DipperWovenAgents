@@ -1,5 +1,5 @@
 from fastapi import Depends, FastAPI
-
+from fastapi.middleware.cors import CORSMiddleware
 from app.api.agent import router as agent_router
 from app.common.api_limit import DAILY_LLM_LIMIT, check_global_api_limit
 
@@ -9,6 +9,17 @@ app = FastAPI(
     docs_url="/agent/docs",
     redoc_url=None,
     openapi_url="/agent/openapi.json",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:62969",
+        "https://localhost:62969",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.include_router(
