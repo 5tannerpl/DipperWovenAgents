@@ -1,5 +1,6 @@
 """Understand collector input and detect business events."""
 import json
+import time
 from app.common.config import settings
 from app.common.llm_client import llm_client, llm_model
 from app.models.understanding import UnderstandingResult
@@ -272,7 +273,7 @@ async def event_detection_node(
         + "\nThe JSON must match this schema exactly:\n"
         + json.dumps(schema, ensure_ascii=False)
     )
-
+    start = time.perf_counter()
     response = await llm_client.chat.completions.create(
         model=llm_model,
         messages=[
@@ -289,6 +290,13 @@ async def event_detection_node(
         
         temperature=0,
     )
+    elapsed = time.perf_counter() - start
+
+    usage = response.usage
+
+    cached = 0 if usage.prompt_tokens_details: cached = usage.prompt_tokens_details.cached_tokens or 0
+
+    print( f"[LLM] " f"time={elapsed:.2f}s | " f"input={usage.prompt_tokens} | " f"cached={cached} | " f"output={usage.completion_tokens} | " f"total={usage.total_tokens}" )
 
     raw_content = response.choices[0].message.content
 
