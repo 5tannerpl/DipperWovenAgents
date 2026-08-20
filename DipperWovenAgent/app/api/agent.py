@@ -14,7 +14,7 @@ router = APIRouter()
 graph = build_graph()
 
 
-@router.post("/invoke"，response_model=ComplianceQuestionsResponse,)
+@router.post("/invoke"，response_model=ComplianceQuestionsResult,)
 async def invoke_agent(
     request: AgentRequest,
     _: int = Depends(check_global_api_limit),
@@ -35,6 +35,6 @@ async def invoke_agent(
         initial_state
     )
 
-    return ComplianceQuestionsResponse(
+    return ComplianceQuestionsResult(
     compliance_questions=result.get("compliance_questions", [])
     )
