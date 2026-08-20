@@ -13,3 +13,12 @@ services:
 
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
+    networks:
+      - default
+      - rag-stack
+
+networks:
+  rag_network:
+    external: true
+    name: rag-stack_default
