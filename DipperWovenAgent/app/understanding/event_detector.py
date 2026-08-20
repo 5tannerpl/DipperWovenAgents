@@ -1,5 +1,5 @@
 """Understand collector input and detect business events."""
-
+import json
 from app.common.config import settings
 from app.common.llm_client import llm_client, llm_model
 from app.models.understanding import UnderstandingResult
@@ -262,12 +262,23 @@ async def event_detection_node(
 
     content = state["normalized_input"]
 
+    schema = UnderstandingResult.model_json_schema()
+
+    system_prompt = (
+        SYSTEM_PROMPT
+        + "\n\nReturn ONLY valid JSON."
+        + "\nDo not use markdown."
+        + "\nDo not wrap the response in ```json."
+        + "\nThe JSON must match this schema exactly:\n"
+        + json.dumps(schema, ensure_ascii=False)
+    )
+
     response = await llm_client.chat.completions.create(
         model=llm_model,
         messages=[
             {
                 "role": "system",
-                "content": SYSTEM_PROMPT,
+                "content": system_prompt,
             },
             {
                 "role": "user",
