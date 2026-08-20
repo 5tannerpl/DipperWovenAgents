@@ -5,6 +5,7 @@ from fastapi import APIRouter, Depends
 
 from app.common.api_limit import check_global_api_limit
 from app.models.request import AgentRequest
+from app.models.compliance_question import ComplianceQuestionResult
 from app.orchestration.graph_builder import build_graph
 
 
@@ -13,7 +14,7 @@ router = APIRouter()
 graph = build_graph()
 
 
-@router.post("/invoke")
+@router.post("/invoke"，response_model=ComplianceQuestionsResponse,)
 async def invoke_agent(
     request: AgentRequest,
     _: int = Depends(check_global_api_limit),
@@ -34,4 +35,6 @@ async def invoke_agent(
         initial_state
     )
 
-    return result
+    return ComplianceQuestionsResponse(
+    compliance_questions=result.get("compliance_questions", [])
+    )
