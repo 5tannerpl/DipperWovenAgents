@@ -1,7 +1,7 @@
 """Understand collector input and detect business events."""
 
 from app.common.config import settings
-from app.common.llm_client import llm_client
+from app.common.llm_client import llm_client, local_llm_client
 from app.models.understanding import UnderstandingResult
 from app.orchestration.state import DipperWovenAgentState
 
