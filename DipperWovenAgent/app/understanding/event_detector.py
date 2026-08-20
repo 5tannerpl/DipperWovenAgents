@@ -263,7 +263,7 @@ async def event_detection_node(
     content = state["normalized_input"]
 
     response = await llm_client.chat.completions.create(
-    model=llm_model,
+        model=llm_model,
         input=[
             {
                 "role": "system",
