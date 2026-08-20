@@ -14,3 +14,8 @@ if not settings.OPENAI_API_KEY:
 llm_client = AsyncOpenAI(
     api_key=settings.OPENAI_API_KEY
 )
+
+local_llm_client = AsyncOpenAI(
+    api_key="ollama",
+    base_url="http://localhost:11434/v1"
+)
