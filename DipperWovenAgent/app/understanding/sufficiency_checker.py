@@ -652,6 +652,8 @@ async def information_sufficiency_node(
         response_format={
             "type": "json_object"
         },
+        
+        temperature=0,
     )
 
     raw_content = response.choices[0].message.content
