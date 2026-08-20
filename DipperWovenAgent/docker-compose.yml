@@ -16,7 +16,7 @@ services:
 
     networks:
       - default
-      - rag-stack
+      - rag_network
 
 networks:
   rag_network:
