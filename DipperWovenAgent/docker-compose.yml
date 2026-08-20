@@ -9,12 +9,8 @@ services:
     env_file:
       - .env
     restart: unless-stopped
-    networks:
-      - rag_network
-    ports:
-      - "8000:8000"
 
-networks:
-  rag_network:
-    external: true
-    name: rag-stack_default
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    network_mode: host
