@@ -518,12 +518,23 @@ async def question_decomposition_node(
         ],
     }
 
+    schema = ComplianceQuestionResult.model_json_schema()
+
+    system_prompt = (
+        SYSTEM_PROMPT
+        + "\n\nReturn ONLY valid JSON."
+        + "\nDo not use markdown."
+        + "\nDo not wrap the response in ```json."
+        + "\nThe JSON must match this schema exactly:\n"
+        + json.dumps(schema, ensure_ascii=False)
+    )
+
     response = await llm_client.chat.completions.create(
         model=llm_model,
-        input=[
+        messages=[
             {
                 "role": "system",
-                "content": SYSTEM_PROMPT,
+                "content": system_prompt,
             },
             {
                 "role": "user",
@@ -533,15 +544,21 @@ async def question_decomposition_node(
                 ),
             },
         ],
-        text_format=ComplianceQuestionResult,
+        response_format={
+            "type": "json_object"
+        },
     )
 
-    result = response.output_parsed
+    raw_content = response.choices[0].message.content
 
-    if result is None:
+    if not raw_content:
         raise RuntimeError(
-            "LLM did not return valid compliance questions."
+            "LLM did not return compliance questions."
         )
+
+    result = ComplianceQuestionResult.model_validate_json(
+        raw_content
+    )
 
     return {
         "compliance_questions": result.questions
