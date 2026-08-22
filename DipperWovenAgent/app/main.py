@@ -22,6 +22,7 @@ app = FastAPI(
     docs_url="/agent/docs",
     redoc_url=None,
     openapi_url="/agent/openapi.json",
+    lifespan=lifespan,
 )
 
 

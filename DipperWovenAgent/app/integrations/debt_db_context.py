@@ -1,3 +1,4 @@
+import asyncio
 import json
 import logging
 
@@ -14,6 +15,39 @@ DEBT_CONTEXT_TTL_SECONDS = 120
 
 def build_debt_context_key(request_id: str) -> str:
     return f"agent:debt-context:{request_id}"
+
+
+async def get_debt_context(
+    request_id: str,
+) -> dict | None:
+    key = build_debt_context_key(request_id)
+
+    raw = await redis_client.get(key)
+
+    if raw is None:
+        return None
+
+    if isinstance(raw, bytes):
+        raw = raw.decode("utf-8")
+
+    return json.loads(raw)
+
+
+async def wait_for_debt_context(
+    request_id: str,
+    retries: int = 10,
+    delay: float = 0.1,
+) -> dict | None:
+
+    for _ in range(retries):
+        context = await get_debt_context(request_id)
+
+        if context is not None:
+            return context
+
+        await asyncio.sleep(delay)
+
+    return None
 
 
 async def prefetch_debt_context(

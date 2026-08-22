@@ -33,7 +33,7 @@ class Settings(BaseSettings):
         "phi4-mini:latest"
     )
 
-    AGENT_DB_HOST: str = "rag-postgresql"
+    AGENT_DB_HOST: str = "rag-postgres"
     AGENT_DB_PORT: int = 5432
     AGENT_DB_NAME: str = "ragdbDwoven"
     AGENT_DB_USER: str = "raguserDwoven"

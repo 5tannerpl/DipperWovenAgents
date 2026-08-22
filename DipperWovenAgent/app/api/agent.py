@@ -9,7 +9,7 @@ from app.common.api_limit import check_global_api_limit
 from app.models.request import AgentRequest
 from app.models.compliance_question import ComplianceQuestionResult
 from app.orchestration.graph_builder import build_graph
-from app.integrations.debt_context_prefetch import prefetch_debt_context
+from app.integrations.debt_db_context import prefetch_debt_context
 
 router = APIRouter()
 
