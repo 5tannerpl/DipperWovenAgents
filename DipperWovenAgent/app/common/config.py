@@ -1,13 +1,13 @@
 """Application configuration."""
 
 import os
-
+from pydantic_settings import BaseSettings
 from dotenv import load_dotenv
 
 load_dotenv()
 
 
-class Settings:
+class Settings(BaseSettings):
     LLM_PROVIDER: str = os.getenv(
         "LLM_PROVIDER",
         "openai"
@@ -31,6 +31,18 @@ class Settings:
     LOCAL_MODEL: str = os.getenv(
         "LOCAL_MODEL",
         "phi4-mini:latest"
+    )
+
+    AGENT_DB_HOST: str = "rag-postgresql"
+    AGENT_DB_PORT: int = 5432
+    AGENT_DB_NAME: str = "ragdbDwoven"
+    AGENT_DB_USER: str = "raguserDwoven"
+    AGENT_DB_PASSWORD: str = "Ew27301-Dwoven"
+
+    # C# Business System internal API
+    BUSINESS_API_BASE_URL: str = os.getenv(
+        "BUSINESS_API_BASE_URL",
+        "http://host.docker.internal:8080"
     )
 
 

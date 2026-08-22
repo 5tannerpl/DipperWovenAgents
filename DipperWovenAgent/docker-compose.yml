@@ -17,8 +17,13 @@ services:
     networks:
       - default
       - rag_network
+      - business_network
 
 networks:
   rag_network:
     external: true
     name: rag-stack_default
+
+  business_network:
+    external: true
+    name: business-network
