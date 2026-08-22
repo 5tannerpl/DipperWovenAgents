@@ -1,23 +1,11 @@
 """Global API quota dependency."""
-import os
 from datetime import date
 
-import redis.asyncio as redis
 from fastapi import HTTPException, status
 
+from app.common.redis_client import redis_client
 
-REDIS_HOST = os.getenv("REDIS_HOST", "rag-redis")
-REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
-REDIS_PASSWPRD = "Ew27302-Dwoven"
 DAILY_LLM_LIMIT = 100
-
-redis_client = redis.Redis(
-    host=REDIS_HOST,
-    port=REDIS_PORT,
-    password=REDIS_PASSWPRD,
-    db=0,
-    decode_responses=True,
-)
 
 
 async def check_global_api_limit() -> int:
