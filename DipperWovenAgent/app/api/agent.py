@@ -4,7 +4,6 @@ import uuid
 from fastapi import APIRouter, Depends, HTTPException
 import asyncio
 from app.repositories.debt_repository import debt_repository
-from app.orchestration.prefetcher import prefetch_debt_context
 
 from app.common.api_limit import check_global_api_limit
 from app.models.request import AgentRequest

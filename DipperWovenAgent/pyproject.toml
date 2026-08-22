@@ -12,7 +12,9 @@ dependencies = [
     "openai",
     "python-dotenv",
     "redis",
-    "asyncpg",
+    "asyncpg>=0.30.0",
+    "pydantic-settings",
+    "httpx",
 ]
 
 [project.optional-dependencies]
