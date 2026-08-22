@@ -2,7 +2,20 @@ from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.agent import router as agent_router
 from app.common.api_limit import DAILY_LLM_LIMIT, check_global_api_limit
+from contextlib import asynccontextmanager
 
+from app.common.database import init_db_pool, close_db_pool
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Application startup
+    await init_db_pool()
+
+    yield
+
+    # Application shutdown
+    await close_db_pool()
+    
 app = FastAPI(
     title="DipperWovenAgent",
     version="0.1.0",
@@ -10,6 +23,7 @@ app = FastAPI(
     redoc_url=None,
     openapi_url="/agent/openapi.json",
 )
+
 
 app.add_middleware(
     CORSMiddleware,
